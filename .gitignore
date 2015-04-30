@@ -1,0 +1,5 @@
+bin/
+.eclipse
+/lib/
+/target
+.DS_Store
