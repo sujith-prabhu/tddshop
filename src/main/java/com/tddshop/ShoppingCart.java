@@ -2,6 +2,7 @@ package com.tddshop;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -24,12 +25,38 @@ public class ShoppingCart {
 
 	public double getTotalCost() {
 		double totalPrice = 0.0;
+		StringBuilder sb = new StringBuilder("[ ");
 		if(cartItems.size()>0){
+			Map<String, Integer> productQuantity = new HashMap();
 			for (String item : cartItems) {
-				totalPrice += prices.get(item);
+				sb.append(item).append(" ");
+				int qty = productQuantity.containsKey(item) ? productQuantity.get(item): 0;
+				productQuantity.put(item, qty+1);
+			}
+			if(productQuantity.size()>0){
+				if(productQuantity.containsKey("Apple")){
+					int qty = productQuantity.get("Apple");
+					Double itemTotal =   (((int)qty /2) + (qty % 2)) * prices.get("Apple");
+					totalPrice += itemTotal;
+				}
+				if(productQuantity.containsKey("Orange")){
+					int qty = productQuantity.get("Orange");
+					Double itemTotal =   ((((int)qty /3)*2) + (qty % 3)) * prices.get("Orange");
+					totalPrice += itemTotal;
+				}
 			}
 		}
+		sb.append("]");
+		sb.append(" => " + totalPrice);
+		System.out.println(sb);
 		return totalPrice;
+	}
+	
+	public static void main(String a[]){
+		ShoppingCart cart = new ShoppingCart();
+		cart.addProduct("Apple");
+		cart.addProduct("Orange");
+		cart.getTotalCost();
 	}
 
 
